@@ -1,10 +1,10 @@
-# Web Auth I Guided Project
+# Node Auth 1 Guided Project
 
-Guided project for **Web Auth I** Module.
+Guided project for **Node Auth 1** Module.
 
 ## Prerequisites
 
-- [SQLite Studio](https://sqlitestudio.pl/index.rvt?act=download) installed.
+- [DB Browser for SQLite](https://sqlitebrowser.org) installed.
 
 ## Project Setup
 

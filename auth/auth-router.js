@@ -1,34 +1,31 @@
-const router = require('express').Router();
+const express = require("express")
+const users = require("../users/users-model")
 
-const Users = require('../users/users-model.js');
+const router = express.Router()
 
-router.post('/register', (req, res) => {
-  let user = req.body;
+router.post("/register", async (req, res, next) => {
+  try {
+    const saved = await users.add(req.body)
+    
+    res.status(201).json(saved)
+  } catch (err) {
+    next(err)
+  }
+})
 
-  Users.add(user)
-    .then(saved => {
-      res.status(201).json(saved);
-    })
-    .catch(error => {
-      res.status(500).json(error);
-    });
-});
+router.post("/login", async (req, res, next) => {
+  try {
+    const { username, password } = req.body
+    const user = await users.findBy({ username }).first()
 
-router.post('/login', (req, res) => {
-  let { username, password } = req.body;
+    if (user) {
+      res.status(200).json({ message: `Welcome ${user.username}!` })
+    } else {
+      res.status(401).json({ message: "Invalid Credentials" })
+    }
+  } catch (err) {
+    next(err)
+  }
+})
 
-  Users.findBy({ username })
-    .first()
-    .then(user => {
-      if (user) {
-        res.status(200).json({ message: `Welcome ${user.username}!` });
-      } else {
-        res.status(401).json({ message: 'Invalid Credentials' });
-      }
-    })
-    .catch(error => {
-      res.status(500).json(error);
-    });
-});
-
-module.exports = router;
+module.exports = router
