@@ -1,11 +1,21 @@
 const express = require("express")
-const Users = require("./users-model")
+const usersModel = require("./users-model")
 
 const router = express.Router()
 
+function restricted() {
+  return async (req, res, next) => {
+    try {
+      // authorize the user here
+    } catch (err) {
+      next(err)
+    }
+  }
+}
+
 router.get("/", async (req, res, next) => {
   try {
-    const users = await Users.find()
+    const users = await usersModel.find()
     
     res.json(users)
   } catch (err) {
